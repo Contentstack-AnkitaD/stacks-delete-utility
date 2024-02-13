@@ -1,4 +1,4 @@
-# Delete Stacks in Bulk Script
+# Stack-Delete Script
 
 This script allows you to delete multiple stacks from your Contentstack account in bulk. It is useful when you need to clean up your Contentstack environment by removing unnecessary stacks.
 
