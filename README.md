@@ -68,6 +68,6 @@ If you prefer to delete only specific stacks, you have the following options:
 
 ## Support
 
-If you encounter any issues or have questions, please feel free to [open an issue](https://github.com/Contentstack-AnkitaD/delete-bulk-stacks/issues) in this repository.
+If you encounter any issues or have questions, please feel free to [open an issue](https://github.com/Contentstack-AnkitaD/BulkDeleteStacksScript/issues) in this repository.
 
 
