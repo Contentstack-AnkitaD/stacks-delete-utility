@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deleteBulkStacks": "node index.js"
+    "delete-stacks": "node index.js"
   },
   "author": "Ankita Dodamani",
   "license": "ISC",
