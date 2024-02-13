@@ -1,4 +1,4 @@
-import { BASE_URL as baseURL } from './config.js';
+import { BASE_URL as baseURL } from '../config.js';
 
 // Function to fetch all stacks in an organization
 export async function fetchStacks(orgUid, authToken) {

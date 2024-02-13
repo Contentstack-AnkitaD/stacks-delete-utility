@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { BASE_URL as baseURL } from './config.js';
+import { BASE_URL as baseURL } from '../config.js';
 
 export async function deleteStack(apiKey, authToken) {
     const url = `${baseURL}/stacks`;

@@ -1,10 +1,10 @@
-import { fileLogger, enableConsoleLogging, disableConsoleLogging } from './fileLogger.js';
+import { fileLogger, enableConsoleLogging, disableConsoleLogging } from './src/fileLogger.js';
 import inquirer from 'inquirer';
 import { EMAIL as email, PASSWORD as password, TFA_TOKEN as tfaToken } from './config.js';
-import { createAuthToken } from "./createAuthToken.js";
-import { fetchStacks, fetchStacksByUser } from './fetchStacks.js';
-import { deleteStack } from './deleteStack.js';
-import { chooseOptionWithArrowKeys } from './chooseOptionWithArrowKeys.js';
+import { createAuthToken } from "./src/createAuthToken.js";
+import { fetchStacks, fetchStacksByUser } from './src/fetchStacks.js';
+import { deleteStack } from './src/deleteStack.js';
+import { chooseOptionWithArrowKeys } from './src/chooseOptionWithArrowKeys.js';
 
 
 let authToken = null;
