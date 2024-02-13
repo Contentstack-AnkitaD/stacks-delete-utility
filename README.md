@@ -1,4 +1,4 @@
-# Stack-Delete Script
+# Stack Delete Utility
 
 This script allows you to delete multiple stacks from your Contentstack account in bulk. It is useful when you need to clean up your Contentstack environment by removing unnecessary stacks.
 
@@ -68,6 +68,6 @@ If you prefer to delete only specific stacks, you have the following options:
 
 ## Support
 
-If you encounter any issues or have questions, please feel free to [open an issue](https://github.com/Contentstack-AnkitaD/BulkDeleteStacksScript/issues) in this repository.
+If you encounter any issues or have questions, please feel free to [open an issue](https://github.com/Contentstack-AnkitaD/stacks-delete-utility/issues) in this repository.
 
 
