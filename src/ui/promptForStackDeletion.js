@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { deleteStack } from './deleteStack.js';
+import { deleteStack } from '../stackManagement/deleteStack.js';
 
 // Function to prompt the user for stack deletion confirmation
 async function promptForIndividualStackDeletion(stack) {

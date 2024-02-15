@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { BASE_URL  } from '../config.js';
+import { BASE_URL } from '../../config.js';
 
 // Function to create a user session and obtain an authentication token
 export async function createAuthToken(email, password, tfaToken) {

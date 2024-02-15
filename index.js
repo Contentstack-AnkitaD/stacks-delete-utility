@@ -1,10 +1,10 @@
-import { fileLogger, enableConsoleLogging, disableConsoleLogging } from './src/fileLogger.js';
+import { fileLogger, enableConsoleLogging, disableConsoleLogging } from './src/logging/fileLogger.js';
 import inquirer from 'inquirer';
 import { EMAIL as email, PASSWORD as password, TFA_TOKEN as tfaToken } from './config.js';
-import { createAuthToken } from "./src/createAuthToken.js";
-import { fetchStacks, fetchStacksByUser } from './src/fetchStacks.js';
-import { deleteStack } from './src/deleteStack.js';
-import { chooseOptionWithArrowKeys } from './src/chooseOptionWithArrowKeys.js';
+import { createAuthToken } from "./src/authentication/createAuthToken.js";
+import { fetchStacks, fetchStacksByUser } from './src/stackManagement/fetchStacks.js';
+import { deleteStack } from './src/stackManagement/deleteStack.js';
+import { chooseOptionWithArrowKeys } from './src/ui/chooseOptionWithArrowKeys.js';
 
 
 let authToken = null;
@@ -35,10 +35,9 @@ export async function fetchOrganizationWiseStacks() {
     const selectedOrg = organizations.find(org => org.name === chosenOption);
     const stacks = await fetchStacks(selectedOrg.uid, authToken);
     console.log(`\n------Total Stacks in Org: ${selectedOrg.name} ------`, stacks.length);
-    const filteredStacks = stacks.filter(stack => stack.owner.email === email);
-    console.log(`My Stacks in Org: ${selectedOrg.name}: ${filteredStacks.length} \n`, filteredStacks.map(stack => stack.name).join("\n "));
+    const filteredStacks = stacks.filter(stack => stack?.owner?.email === email);
     myStacks.push(...filteredStacks);
-    console.log("\n ------Total No of My Stacks : ------", myStacks.length + '\n' + myStacks.map(stack => stack.name).join("\n "));
+    console.log(`\n ------My Stacks in Org: ${selectedOrg.name} : ------`, myStacks.length + '\n' + myStacks.map(stack => stack.name).join("\n "));
 
 }
 
@@ -46,12 +45,10 @@ export async function fetchAllStacks() {
     console.log("\n------My organizations------ : \n", organizations.map(org => org.name).join("\n "));
     for (const organization of organizations) {
         const stacks = await fetchStacks(organization.uid, authToken);
-        console.log(`\n------Total Stacks in Org: ${organization.name} ------`, stacks.length);
-        const filteredStacks = stacks.filter(stack => stack.owner.email === email);
-        console.log(`My Stacks in Org: ${organization.name}: ${filteredStacks.length} \n`, filteredStacks.map(stack => stack.name).join("\n "));
+        const filteredStacks = stacks.filter(stack => stack?.owner?.email === email);
         myStacks.push(...filteredStacks);
     }
-    console.log("\n ------Total No of My Stacks : ------", myStacks.length + '\n' + myStacks.map(stack => stack.name).join("\n "));
+    console.log("\n ------Total No of My Stacks as owner: ------", myStacks.length + '\n' + myStacks.map(stack => stack.name).join("\n "));
 }
 
 export async function filterByStacksToKeep() {
@@ -126,7 +123,9 @@ async function main() {
         await fetchAllStacks();
     }
     if (myStacks.length === 0 && stacksOwnedByUser.length === 0) {
-        console.log("\nNo stacks to delete");
+        enableConsoleLogging();
+        console.log("----!! ⚠️  No stacks to delete ⚠️ !!----");
+        disableConsoleLogging();
         return;
     }
     question = '\nChoose deletion type: BEWARE OF "You have selective Stacks to Keep" ';
