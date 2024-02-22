@@ -27,10 +27,8 @@ export async function promptForStackDeletion(stacks, authToken) {
     for (const stack of stacks) {
         const confirm = await promptForIndividualStackDeletion(stack);
         if (confirm) {
-            // Call the function to delete the stack (to be implemented)
             console.log(`Deleting stack - ${stack.name}...`);
             await deleteStack(stack.api_key, authToken);
-            // Call deleteStack function here passing the stack uid or any necessary data
         } else {
             console.log(`Skipping deletion of stack - ${stack.name}`);
         }

@@ -1,22 +1,24 @@
 import fetch from 'node-fetch';
 import { BASE_URL as baseURL } from '../../config.js';
+import { fileLogger, enableConsoleLogging, disableConsoleLogging } from '../logging/fileLogger.js';
 
 export async function deleteStack(apiKey, authToken) {
+    enableConsoleLogging();
     const url = `${baseURL}/stacks`;
     const headers = {
         'Content-Type': 'application/json',
         'api_key': apiKey,
         'authtoken': authToken
     };
-    console.log('Deleting stack... ', apiKey);
-
     try {
         const response = await fetch(url, { method: 'DELETE', headers });
         const data = await response.json();
-        console.log('deleting stack... ', apiKey, data);
-        console.log(data.notice);
+        console.warn('deleting stack... ', apiKey);
+        console.success(data.notice);
 
     } catch (error) {
-        console.error('Error deleting stack:', error);
+        console.error('\nError deleting stack:', error);
     }
+    disableConsoleLogging();
+
 }
