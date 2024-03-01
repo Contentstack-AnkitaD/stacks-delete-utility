@@ -1,10 +1,11 @@
 import fetch from 'node-fetch';
 import { disableConsoleLogging, enableConsoleLogging } from '../logging/fileLogger.js';
+import { DEVELOPERHUB_BASE_URL } from '../../config.js';
 
 export async function deleteInstallations(installation_uid, authToken, org_uid) {
     enableConsoleLogging()
 
-    const url = `https://developerhub-api.contentstack.com/installations/${installation_uid}`;
+    const url = `${DEVELOPERHUB_BASE_URL}/installations/${installation_uid}`;
     const headers = {
         'Content-Type': 'application/json',
         'authToken': authToken,

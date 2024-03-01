@@ -1,4 +1,4 @@
-import { BASE_URL as baseURL } from '../../config.js';
+import { CDA_URL as baseURL } from '../../config.js';
 
 export async function fetchStacks(orgUid, authToken) {
     const url = `${baseURL}/organizations/${orgUid}/stacks?include_count=false&limit=500`;

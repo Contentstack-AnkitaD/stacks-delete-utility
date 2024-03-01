@@ -22,7 +22,7 @@ Before running the script, make sure you have the following:
 3. Update the script's configuration:
    - Create a `config.js` file. [Refer `sample.config.js`.]
    - Update the `EMAIL`, `PASSWORD`, and `TFA_TOKEN` variables with your Contentstack account credentials.
-   - If necessary, update the `BASE_URL` variable with the correct API endpoint.
+   - If necessary, update the `CDA_URL` variable with the correct API endpoint.
 
 ## Usage
 

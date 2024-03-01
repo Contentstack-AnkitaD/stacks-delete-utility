@@ -1,26 +1,48 @@
 import fetch from 'node-fetch';
 import { disableConsoleLogging, enableConsoleLogging } from '../logging/fileLogger.js';
+import { userInformation } from '../../index.js';
+import { DEVELOPERHUB_BASE_URL } from '../../config.js';
 
 export async function fetchInstallations(target_uids, authToken, org_uid) {
 
     enableConsoleLogging();
+    // console.log("authToken", authToken, target_uids, org_uid);
 
-    const url = `https://developerhub-api.contentstack.com/installations?target_uids=${target_uids}`;
+    const url = `${DEVELOPERHUB_BASE_URL}/installations?target_uids=${target_uids}`;
     const headers = {
         'Content-Type': 'application/json',
         'authToken': authToken,
         'organization_uid': org_uid
     };
-
-
     try {
-
-
-
         const response = await fetch(url, {
             method: 'GET',
             headers: headers
         });
+
+        if (response.status === 401) {
+            console.error(`Failed to fetch installations for stack API keys ${target_uids}`, response.status, response.statusText, "\n Relogging to continue");
+
+            let authToken = null;
+            let organizations = null;
+            let username = null;
+            let user_uid = null;
+            await userInformation();
+            try {
+                response = await fetch(url, {
+                    method: 'GET',
+                    headers: headers
+                });
+                if (!response.ok) {
+                    console.error(`Failed to fetch installations for stack API keys ${target_uids}`, response.status, response.statusText);
+                }
+            }
+
+            catch (error) {
+
+            }
+
+        }
 
         if (!response.ok) {
             console.error(`Failed to fetch installations for stack API keys ${target_uids}`, response.status, response.statusText);
@@ -41,8 +63,44 @@ export async function fetchInstallations(target_uids, authToken, org_uid) {
 }
 
 
+export async function fetchAppInstallations(authToken, org_uid) {
+
+    enableConsoleLogging();
+
+    const url = `${DEVELOPERHUB_BASE_URL}/installations`;
+    const headers = {
+        'Content-Type': 'application/json',
+        'authToken': authToken,
+        'organization_uid': org_uid
+    };
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: headers
+        });
+
+        if (!response.ok) {
+            console.error(`Failed to fetch installations for App ${app_uids}`, response.status, response.statusText);
+        }
+
+        const data = await response.json();
+
+        disableConsoleLogging();
+        return data;
+    } catch (error) {
+        if (error instanceof SyntaxError) {
+            console.error("Error fetching installations: Empty or invalid JSON response");
+        } else {
+            console.error(`Error fetching installations: ${error.message}`);
+        }
+    }
+    disableConsoleLogging();
+}
+
+
+
 export async function listInstallations(selectedOrgUids, stackuids, authToken) {
-    const url = `https://developerhub-api.contentstack.com/installations`;
+    const url = `${DEVELOPERHUB_BASE_URL}/installations`;
 
     const params = new URLSearchParams({
         organization_uid: selectedOrgUids,
@@ -74,7 +132,7 @@ export async function listInstallations(selectedOrgUids, stackuids, authToken) {
 
 export async function deleteInstallation(installation_uid, authToken, org_uid) {
     enableConsoleLogging();
-    const url = `https://developerhub-api.contentstack.com/installations/${installation_uid}`;
+    const url = `${DEVELOPERHUB_BASE_URL}/installations/${installation_uid}`;
     const headers = {
         'Content-Type': 'application/json',
         'authToken': authToken,
@@ -122,7 +180,9 @@ export async function fetchAndDeleteInstallations(myStacks, authToken) {
             console.log(`Installations for organization with org_uid ${orgUid}: `, installations);
             if (installations.data && Array.isArray(installations.data)) {
                 for (const installation of installations.data) {
+                    console.log(`${installation.visibility} App : ${installation.manifest.name}`)
                     const response = await deleteInstallation(installation.uid, authToken, orgUid);
+                    installation.manifest.visibility === 'private' && global.installedApps.push({ name: installation.manifest.name, uid: installation.manifest.uid });
                 }
             } else {
                 console.log('No installations found for organization with org_uid:', orgUid);
